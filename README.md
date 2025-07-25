@@ -54,12 +54,16 @@ Building innovative tech solutions
 ## 📊 GitHub Stats
 
 <div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=MahediH7&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&cache_seconds=86400"/>
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=MahediH7&layout=compact&theme=tokyonight&cache_seconds=86400"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=MahediH7&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=MahediH7&layout=compact&theme=tokyonight"/>
 </div>
 
 <div align="center">
-  <img src="https://streak-stats.demolab.com/?user=MahediH7&theme=tokyonight" alt="GitHub Streak" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=MahediH7&theme=tokyonight" alt="GitHub Streak" />
+</div>
+
+<div align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=MahediH7&theme=tokyonight&hide_border=true" alt="Activity Graph" />
 </div>
 
 ## 🚀 Featured Projects
@@ -98,7 +102,7 @@ Educational platform with course management features
 ## 🏆 GitHub Trophies
 
 <div align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=MahediH7&theme=tokyonight&no-frame=true&margin-w=15&cache_seconds=86400" />
+  <img src="https://github-profile-trophy.vercel.app/?username=MahediH7&theme=tokyonight&no-frame=true&margin-w=15" />
 </div>
 
 ---
