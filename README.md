@@ -3,22 +3,39 @@
 </div>
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com/?lines=MS+Computer+Science+Student;Full+Stack+Developer;Unity+Game+Developer;International+Tech+Professional&font=Fira%20Code&center=true&width=380&height=50&duration=4000&pause=1000" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com/?lines=MS+Computer+Science+Student;Full+Stack+Developer;Unity+Game+Developer;International+Tech+Professional&font=Fira%20Code&center=true&width=380&height=50&duration=4000&pause=1000" alt="Typing SVG" />
 </div>
 
 ## 👨‍💻 About Me
 
-```javascript
-const mahedi = {
-    location: "Los Angeles, CA 🇺🇸",
-    education: "MS Computer Science @ Westcliff University",
-    status: "Computer Science Graduate Student",
-    experience: "International background: China → USA",
-    languages: ["English", "Bengali", "Hindi", "Chinese", "Spanish"],
-    interests: ["AI", "Game Development", "Full-Stack Development"],
-    funFact: "Multilingual developer with cross-cultural experience! 🌍"
-};
-```
+<table>
+<tr>
+<td>
+
+**🎓 Education**  
+MS Computer Science @ Westcliff University
+
+**📍 Location**  
+Los Angeles, CA 🇺🇸
+
+**🌍 Background**  
+International experience: China → USA
+
+</td>
+<td>
+
+**💻 Focus Areas**  
+Full-Stack Development, Game Development, AI
+
+**🗣️ Languages**  
+English, Bengali, Hindi, Chinese, Spanish
+
+**🚀 Currently**  
+Building innovative tech solutions
+
+</td>
+</tr>
+</table>
 
 ## 🛠️ Tech Stack
 
@@ -37,28 +54,36 @@ const mahedi = {
 ## 📊 GitHub Stats
 
 <div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=MahediH7&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true"/>
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=MahediH7&layout=compact&theme=tokyonight"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=MahediH7&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&cache_seconds=86400"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=MahediH7&layout=compact&theme=tokyonight&cache_seconds=86400"/>
 </div>
 
 <div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=MahediH7&theme=tokyonight" alt="GitHub Streak" />
+  <img src="https://streak-stats.demolab.com/?user=MahediH7&theme=tokyonight" alt="GitHub Streak" />
 </div>
 
 ## 🚀 Featured Projects
 
-<div align="center">
+### 🎮 AstroBluster - Unity Game
+Interactive 2D space shooter with custom graphics and game mechanics
+- **Tech:** Unity, C#
+- **Features:** Collision detection, scoring system, custom graphics
 
-[![AstroBluster](https://github-readme-stats.vercel.app/api/pin/?username=MahediH7&repo=AstroBluster&theme=tokyonight)](https://github.com/MahediH7/AstroBluster)
-[![Full-Stack-App](https://github-readme-stats.vercel.app/api/pin/?username=MahediH7&repo=fullstack-web-app&theme=tokyonight)](https://github.com/MahediH7/fullstack-web-app)
+### 🌐 Full-Stack Web Application  
+Complete web application with frontend and backend integration
+- **Tech:** React, Node.js, MongoDB
+- **Features:** User authentication, database management, responsive design
 
-</div>
+### 📚 E-Learning Platform
+Educational platform with course management features
+- **Tech:** TypeScript, React, Node.js
+- **Features:** Course management, user interaction, progress tracking
 
-## 🎓 Education & Experience
+## 🎓 Education & Background
 
 **Current:** MS Computer Science, Westcliff University (2023-Present)  
 **Previous:** BS Computer Science, Tianjin Agricultural University, China (2018-2022)  
-**Background:** International experience with multicultural perspective  
+**Experience:** International multicultural background with unique perspective  
 
 ## 🌐 Connect With Me
 
@@ -70,10 +95,10 @@ const mahedi = {
 
 </div>
 
-## 🏆 Achievements
+## 🏆 GitHub Trophies
 
 <div align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=MahediH7&theme=tokyonight&no-frame=true&margin-w=15" />
+  <img src="https://github-profile-trophy.vercel.app/?username=MahediH7&theme=tokyonight&no-frame=true&margin-w=15&cache_seconds=86400" />
 </div>
 
 ---
