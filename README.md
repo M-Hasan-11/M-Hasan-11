@@ -63,7 +63,7 @@ Building innovative tech solutions
 </div>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=MahediH7&theme=tokyo-night&hide_border=true" alt="Activity Graph" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=MahediH7&theme=tokyonight&hide_border=true" alt="Activity Graph" />
 </div>
 
 ## 🚀 Featured Projects
