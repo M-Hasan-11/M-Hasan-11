@@ -75,7 +75,7 @@ I'm a passionate **Full-Stack Developer** who loves building modern, AI-powered 
 </div>
 
 <div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=M-Hasan-11&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
+  <img src="https://streak-stats.demolab.com/?user=M-Hasan-11&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
 </div>
 
 ---
