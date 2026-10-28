@@ -552,6 +552,83 @@ function footer() {
   return svgDoc({ w: W, h: H, title: "End of transmission. M-11 the robot waves goodbye. Thanks for visiting.", css, defs, body });
 }
 
+/* ─────────────────────────────── identity panel ─────────────────────────────── */
+
+const IDENTITY = [
+  ["ROLE", "Full-Stack Developer & Creative Technologist"],
+  ["FRONTEND", "TypeScript / Next.js / React / Tailwind"],
+  ["BACKEND", "Node.js / Supabase / PostgreSQL"],
+  ["CREATIVE", "Three.js / React Three Fiber / GSAP"],
+  ["GAMES", "Unity / C#"],
+  ["OPEN TO", "Collaborations on ambitious products"],
+];
+const NOW_BUILDING = ["Car assembly plant sim", "Humanoid Rubik's-cube sim"];
+const SHIPPED = ["Liberty 250", "Relic Arena Realms"];
+
+function identity() {
+  const W = 1000, PAD = 34, KEY_W = 210, ROW = 56, TOP = 92, SIZE = 25;
+  const listTop = TOP + (IDENTITY.length - 1) * ROW + 44, H = listTop + 214;
+  const half = (W - PAD * 3) / 2;
+
+  const rows = IDENTITY.map(([key, value], i) => {
+    const y = TOP + i * ROW;
+    if (value.length * SIZE * MONO_ADV > W - PAD * 2 - KEY_W) throw new Error(`identity value too long: ${value}`);
+    return `<g style="animation:rowIn .6s ease-out ${(0.15 * i).toFixed(2)}s both">
+  <rect x="${PAD}" y="${y - 34}" width="${W - PAD * 2}" height="${ROW - 8}" rx="6" fill="${i % 2 ? C.bg0 : C.bg1}" fill-opacity=".7"/>
+  <text x="${PAD + 18}" y="${y}" class="mb" font-size="17" letter-spacing="3" fill="${C.magenta}">${esc(key)}</text>
+  <text x="${PAD + KEY_W}" y="${y}" class="m" font-size="${SIZE}" fill="${C.text}">${esc(value)}</text>
+</g>`;
+  }).join("\n");
+
+  const list = (title, items, color, x, kind) => {
+    const head = `<text x="${x}" y="${listTop + 30}" class="mb" font-size="18" letter-spacing="3" fill="${color}">${title}</text>
+<rect x="${x}" y="${listTop + 42}" width="40" height="3" fill="${color}"/>`;
+    const entries = items.map((item, i) => {
+      const y = listTop + 92 + i * 66;
+      const mark = kind === "build"
+        ? `<circle cx="${x + 10}" cy="${y - 8}" r="7" fill="${color}" class="pulse" style="animation-delay:${-i * 0.6}s"/>`
+        : `<path d="M${x + 2} ${y - 9}L${x + 9} ${y - 2}L${x + 21} ${y - 16}" fill="none" stroke="${color}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const bar = kind === "build"
+        ? `<rect x="${x + 34}" y="${y + 14}" width="${half - 40}" height="5" rx="2.5" fill="${C.line}"/>
+<g clip-path="url(#bar${i})"><rect x="${x + 34}" y="${y + 14}" width="120" height="5" rx="2.5" fill="${color}" class="busy" style="animation-delay:${-i * 0.9}s"/></g>
+<clipPath id="bar${i}"><rect x="${x + 34}" y="${y + 14}" width="${half - 40}" height="5" rx="2.5"/></clipPath>`
+        : `<rect x="${x + 34}" y="${y + 14}" width="${half - 40}" height="5" rx="2.5" fill="${color}" opacity=".85"/>`;
+      return `${mark}
+<text x="${x + 34}" y="${y}" class="m" font-size="23" fill="${C.text}">${esc(item)}</text>
+${bar}`;
+    }).join("\n");
+    return head + "\n" + entries;
+  };
+
+  const css = fontCss({ monoBold: true }) + baseCss + `
+@keyframes rowIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@keyframes busy{from{transform:translateX(-130px)}to{transform:translateX(${half}px)}}
+@keyframes scanY{from{transform:translateY(0)}to{transform:translateY(${H - 40}px)}}
+.busy{animation:busy 2.2s ease-in-out infinite}
+.scan{animation:scanY 6s linear infinite}`;
+  const defs = `
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.bg1}"/><stop offset="1" stop-color="${C.bg0}"/></linearGradient>
+<linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.cyan}" stop-opacity="0"/><stop offset=".5" stop-color="${C.cyan}" stop-opacity=".08"/><stop offset="1" stop-color="${C.cyan}" stop-opacity="0"/></linearGradient>
+<pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="${C.cyan}" stroke-opacity=".05"/></pattern>
+<clipPath id="panel"><path d="${chamferPath(0.5, 0.5, W - 1, H - 1, 24)}"/></clipPath>`;
+  const panel = chamferPath(0.5, 0.5, W - 1, H - 1, 24);
+  const body = `
+<path d="${panel}" fill="url(#bg)"/>
+<path d="${panel}" fill="url(#grid)"/>
+<text x="${PAD}" y="46" class="m" font-size="16" letter-spacing="4" fill="${C.dim}">// IDENTITY MATRIX</text>
+<circle cx="${W - PAD - 150}" cy="40" r="6" fill="${C.lime}" class="pulse"/>
+<text x="${W - PAD}" y="46" text-anchor="end" class="mb" font-size="16" letter-spacing="3" fill="${C.lime}">VERIFIED</text>
+${rows}
+<line x1="${PAD}" y1="${listTop}" x2="${W - PAD}" y2="${listTop}" stroke="${C.line}" stroke-width="2"/>
+${list("NOW BUILDING", NOW_BUILDING, C.amber, PAD, "build")}
+${list("RECENTLY SHIPPED", SHIPPED, C.lime, PAD * 2 + half, "shipped")}
+<g clip-path="url(#panel)"><rect x="0" y="0" width="${W}" height="70" fill="url(#scanG)" class="scan"/></g>
+<path d="${panel}" fill="none" stroke="${C.line}"/>
+${brackets(12, 12, W - 24, H - 24, 22, C.cyan, 2)}`;
+  const title = `Identity: ${IDENTITY.map(([k, v]) => `${k.toLowerCase()}: ${v}`).join("; ")}. Now building: ${NOW_BUILDING.join(", ")}. Recently shipped: ${SHIPPED.join(", ")}.`;
+  return svgDoc({ w: W, h: H, title, css, defs, body });
+}
+
 /* ─────────────────────────────── build ─────────────────────────────── */
 
 write(`${OUT}hero.svg`, hero());
@@ -561,3 +638,4 @@ write(`${OUT}toolkit.svg`, toolkit());
 for (const b of BUTTONS) write(`${OUT}btn-${b.slug}.svg`, button(b));
 write(`${OUT}footer.svg`, footer());
 write(`${OUT}robot.svg`, robotScene());
+write(`${OUT}identity.svg`, identity());
