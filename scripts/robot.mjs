@@ -31,7 +31,7 @@ export const robotCss = `
 export const robotDefs = `
 <linearGradient id="r-shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26306A"/><stop offset="1" stop-color="#0E1334"/></linearGradient>
 <linearGradient id="r-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#222B60"/><stop offset="1" stop-color="#0B0F2A"/></linearGradient>
-<radialGradient id="r-coreG"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="${C.magenta}"/><stop offset="1" stop-color="${C.magenta}" stop-opacity="0"/></radialGradient>
+<radialGradient id="r-coreG"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".35" stop-color="${C.pink}"/><stop offset="1" stop-color="${C.pink}" stop-opacity="0"/></radialGradient>
 <linearGradient id="r-flameG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".3" stop-color="${C.cyan}"/><stop offset="1" stop-color="${C.violet}" stop-opacity="0"/></linearGradient>
 <filter id="r-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
 
@@ -67,7 +67,7 @@ export function robot({ wave = true } = {}) {
   <rect x="-14" y="-4" width="28" height="16" rx="4" fill="#141A3A"/>
 
   <line x1="0" y1="-96" x2="0" y2="-120" stroke="${C.dim}" stroke-width="3"/>
-  <circle cx="0" cy="-126" r="7" fill="${C.magenta}" filter="url(#r-glow)" class="r-tip"/>
+  <circle cx="0" cy="-126" r="7" fill="${C.pink}" filter="url(#r-glow)" class="r-tip"/>
   <rect x="-78" y="-66" width="14" height="40" rx="6" fill="${C.violet}"/>
   <rect x="64" y="-66" width="14" height="40" rx="6" fill="${C.violet}"/>
   <rect x="-66" y="-98" width="132" height="98" rx="30" fill="url(#r-shell)" stroke="${C.cyan}" stroke-opacity=".8" stroke-width="2"/>
