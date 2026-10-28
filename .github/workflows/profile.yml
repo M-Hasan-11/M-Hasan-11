@@ -50,6 +50,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PROFILE_TOKEN || secrets.GITHUB_TOKEN }}
           PROFILE_LOGIN: ${{ github.repository_owner }}
 
+      - name: Commit refreshed telemetry
+        if: github.event_name != 'pull_request'
+        run: |
+          cp dist/stats.svg assets/telemetry.svg
+          git diff --quiet -- assets/telemetry.svg && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh telemetry panel" -- assets/telemetry.svg
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          exit 1
+
       - name: Publish to output branch
         if: github.event_name != 'pull_request'
         uses: crazy-max/ghaction-github-pages@v4
@@ -63,3 +74,5 @@ jobs:
         run: node scripts/check-readme.mjs
         env:
           OUTPUT_DIR: dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RENDER_REF: ${{ github.event.pull_request.head.sha || github.sha }}

@@ -11,17 +11,22 @@
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 
 @keyframes sweep{to{stroke-dashoffset:-1000}}
-.sweep{animation:sweep 7s linear infinite}</style>
+@keyframes shimmer{0%{transform:translateX(-260px)}28%,100%{transform:translateX(660px)}}
+.sweep{animation:sweep 7s linear infinite}
+.shimmer{animation:shimmer 7s ease-in-out 3.5s infinite}</style>
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A0E24"/><stop offset="1" stop-color="#04050D"/></linearGradient>
 <radialGradient id="spot" cx="1" cy="0" r=".9"><stop offset="0" stop-color="#FF2BD6" stop-opacity=".16"/><stop offset="1" stop-color="#FF2BD6" stop-opacity="0"/></radialGradient>
 <linearGradient id="sw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF2BD6" stop-opacity="0"/><stop offset=".5" stop-color="#FF2BD6"/><stop offset="1" stop-color="#fff"/></linearGradient>
 <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#FF2BD6" stroke-opacity=".06"/></pattern>
+<linearGradient id="holo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<clipPath id="cardClip"><path d="M1 1H571L599 29V299H29L1 271Z"/></clipPath>
 <filter id="g" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
 
 <path d="M1 1H571L599 29V299H29L1 271Z" fill="url(#bg)"/>
 <path d="M1 1H571L599 29V299H29L1 271Z" fill="url(#grid)"/>
 <path d="M1 1H571L599 29V299H29L1 271Z" fill="url(#spot)"/>
+<g clip-path="url(#cardClip)"><path d="M0 300L120 0H260L140 300Z" fill="url(#holo)" class="shimmer"/></g>
 <path d="M1 1H571L599 29V299H29L1 271Z" fill="none" stroke="#1C2550" stroke-width="1.5"/>
 <path d="M1 1H571L599 29V299H29L1 271Z" fill="none" stroke="url(#sw)" stroke-width="2.2" pathLength="1000" stroke-dasharray="110 890" class="sweep" filter="url(#g)"/>
 
