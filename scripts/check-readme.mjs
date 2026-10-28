@@ -75,7 +75,8 @@ async function renderedImages(ref) {
   for (const [tag] of html.matchAll(/<(?:img|source)\b[^>]*>/g)) {
     const attr = (name) => tag.match(new RegExp(`\\s${name}="([^"]+)"`))?.[1]?.replaceAll("&amp;", "&");
     const url = attr("src") ?? attr("srcset");
-    if (url) urls.set(new URL(url, "https://github.com/").href, attr("data-canonical-src"));
+    // Relative paths resolve against the repo at that ref, as on the profile page.
+    if (url) urls.set(new URL(url, `https://github.com/${process.env.GITHUB_REPOSITORY}/raw/${ref}/`).href, attr("data-canonical-src"));
   }
   return [...urls].map(([url, canonical]) => (canonical ? `${url} <= ${canonical}` : url));
 }

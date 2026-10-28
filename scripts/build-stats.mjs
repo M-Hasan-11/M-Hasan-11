@@ -1,4 +1,6 @@
-// Builds the "telemetry" panel (stats.svg) from live GitHub data.
+// Builds the "telemetry" panel (stats.svg) from live GitHub data. The workflow
+// commits it to assets/telemetry.svg so the README serves it like every other
+// image (the GitHub mobile app would not load it from the output branch).
 // Runs in the profile workflow; replaces third-party stat cards. Uses GITHUB_TOKEN,
 // or a PROFILE_TOKEN secret (a personal token) to include private contributions.
 //
@@ -200,7 +202,7 @@ function render(s) {
     const x = PAD + i * legendStep;
     const label = `${l.name} ${l.pct.toFixed(1)}%`;
     const size = Math.min(11.5, (legendStep - 22) / (label.length * MONO_ADV));
-    return `<g transform="translate(${x.toFixed(1)} 400)"><rect width="10" height="10" rx="2" fill="${l.color}"/><text x="16" y="9.5" class="m" font-size="${size.toFixed(1)}" fill="${C.text}">${esc(l.name)} <tspan fill="${C.dim}">${l.pct.toFixed(1)}%</tspan></text></g>`;
+    return `<g transform="translate(${x.toFixed(1)} 400)"><rect width="10" height="10" rx="2" fill="${l.color}"/><text x="16" y="9.5" class="m" font-size="${size.toFixed(1)}" fill="${C.text}">${esc(l.name)}</text><text x="${(16 + (l.name.length + 1) * size * MONO_ADV).toFixed(1)}" y="9.5" class="m" font-size="${size.toFixed(1)}" fill="${C.dim}">${l.pct.toFixed(1)}%</text></g>`;
   }).join("");
 
   const synced = s.generatedAt.slice(0, 10);
@@ -209,9 +211,12 @@ function render(s) {
 <path d="${chamferPath(0.5, 0.5, W - 1, H - 1, 24)}" fill="url(#grid)"/>
 <path d="${chamferPath(0.5, 0.5, W - 1, H - 1, 24)}" fill="none" stroke="${C.line}"/>
 
-<text x="${PAD}" y="40" class="m" font-size="13" letter-spacing="3" fill="${C.dim}">// TELEMETRY FEED: <tspan fill="${C.text}">${esc(s.login.toUpperCase())}</tspan></text>
+<text x="${PAD}" y="40" class="m" font-size="13" letter-spacing="3" fill="${C.dim}">// TELEMETRY FEED:</text>
+<text x="${PAD + 19 * (13 * MONO_ADV + 3)}" y="40" class="m" font-size="13" letter-spacing="3" fill="${C.text}">${esc(s.login.toUpperCase())}</text>
 <circle cx="${(W - PAD - 6 - `SYNCED ${synced} UTC`.length * (13 * MONO_ADV + 2) - 10).toFixed(1)}" cy="35" r="4.5" fill="${C.lime}" class="pulse"/>
-<text x="${W - PAD - 6}" y="40" text-anchor="end" class="m" font-size="13" letter-spacing="2" fill="${C.dim}">SYNCED <tspan fill="${C.lime}">${synced}</tspan> UTC</text>
+<text x="${W - PAD - 6}" y="40" text-anchor="end" class="m" font-size="13" letter-spacing="2" fill="${C.dim}">UTC</text>
+<text x="${W - PAD - 6 - 4 * (13 * MONO_ADV + 2)}" y="40" text-anchor="end" class="m" font-size="13" letter-spacing="2" fill="${C.lime}">${synced}</text>
+<text x="${W - PAD - 6 - 15 * (13 * MONO_ADV + 2)}" y="40" text-anchor="end" class="m" font-size="13" letter-spacing="2" fill="${C.dim}">SYNCED</text>
 
 ${tileSvg}
 
