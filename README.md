@@ -27,38 +27,9 @@
 
 I'm a **full-stack developer and creative technologist** who builds things people can *see and feel*: cinematic 3D websites, real-time platforms, AI-powered apps and games. I like owning a product end to end, from the database schema and the API to the shader and the last pixel of polish.
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-**`>_` CURRENTLY BUILDING**
-
-- A near-photoreal **car assembly plant** simulation in the browser
-- A **humanoid Rubik's-cube** simulation
-
-</td>
-<td width="50%" valign="top">
-
-**`>_` RECENTLY SHIPPED**
-
-- **Liberty 250**: scrollytelling for America's 250th
-- **Relic Arena Realms**: a free Windows action arena
-
-</td>
-</tr>
-</table>
-
-```ts
-const mahedi = {
-  role:      "Full-Stack Developer & Creative Technologist",
-  frontend:  ["TypeScript", "Next.js", "React", "Tailwind CSS"],
-  backend:   ["Node.js", "Supabase", "PostgreSQL"],
-  creative:  ["Three.js", "React Three Fiber", "GSAP"],
-  games:     ["Unity", "C#"],
-  shipping:  "3D storefronts, AI apps & real-time platforms",
-  openTo:    "Collaborations on ambitious, good-looking products",
-} as const;
-```
+<div align="center">
+  <img src="assets/identity.svg" width="100%" alt="Identity: Full-Stack Developer and Creative Technologist. Frontend: TypeScript, Next.js, React, Tailwind. Backend: Node.js, Supabase, PostgreSQL. Creative: Three.js, React Three Fiber, GSAP. Games: Unity, C#. Now building a car assembly plant simulation and a humanoid Rubik's-cube simulation; recently shipped Liberty 250 and Relic Arena Realms." />
+</div>
 
 <img src="assets/section-toolkit.svg" width="100%" alt="02 — Toolkit" />
 
