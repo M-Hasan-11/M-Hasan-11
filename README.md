@@ -6,7 +6,7 @@
 -->
 
 <div align="center">
-  <img src="assets/hero.svg" width="100%" alt="Mahedi Hasan — Full-Stack Developer, 3D Web Engineer, AI Product Builder, Unity Game Developer" />
+  <img src="assets/hero.svg" width="100%" alt="Mahedi Hasan: full-stack developer crafting cinematic 3D web, AI products and games." />
 </div>
 
 <p align="center">
@@ -15,11 +15,10 @@
   <a href="https://github.com/M-Hasan-11?tab=repositories"><img src="assets/btn-repos.svg" width="31%" alt="All repositories" /></a>
 </p>
 
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=M-Hasan-11&label=PROFILE%20VIEWS&color=8B5CFF&style=flat-square" alt="Profile views" />
-</p>
-
-<img src="assets/section-about.svg" width="100%" alt="01 — About" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/section-about-light.svg" />
+  <img src="assets/section-about.svg" width="100%" alt="01 About" />
+</picture>
 
 <div align="center">
   <img src="assets/robot.svg" width="100%" alt="M-11, an animated robot mascot, waves hello and types messages about Mahedi's work" />
@@ -28,16 +27,22 @@
 I'm a **full-stack developer and creative technologist** who builds things people can *see and feel*: cinematic 3D websites, real-time platforms, AI-powered apps and games. I like owning a product end to end, from the database schema and the API to the shader and the last pixel of polish.
 
 <div align="center">
-  <img src="assets/identity.svg" width="100%" alt="Identity: Full-Stack Developer and Creative Technologist. Frontend: TypeScript, Next.js, React, Tailwind. Backend: Node.js, Supabase, PostgreSQL. Creative: Three.js, React Three Fiber, GSAP. Games: Unity, C#. Now building a car assembly plant simulation and a humanoid Rubik's-cube simulation; recently shipped Liberty 250 and Relic Arena Realms." />
+  <img src="assets/identity.svg" width="100%" alt="Profile: full-stack developer and creative technologist. Frontend: TypeScript, Next.js, React, Tailwind. Backend: Node.js, Supabase, PostgreSQL. Creative: Three.js, React Three Fiber, GSAP. Games: Unity, C#. Now building a car assembly plant simulation and a humanoid Rubik's-cube simulation; recently shipped Liberty 250 and Relic Arena Realms." />
 </div>
 
-<img src="assets/section-toolkit.svg" width="100%" alt="02 — Toolkit" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/section-toolkit-light.svg" />
+  <img src="assets/section-toolkit.svg" width="100%" alt="02 Toolkit" />
+</picture>
 
 <div align="center">
   <img src="assets/toolkit.svg" width="100%" alt="Toolkit: TypeScript, JavaScript, C#, HTML, CSS, React, Next.js, Tailwind CSS, Three.js, GSAP, Vite, Node.js, Supabase, PostgreSQL, Vercel, Unity, Git, GitHub, Figma" />
 </div>
 
-<img src="assets/section-work.svg" width="100%" alt="03 — Featured work" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/section-work-light.svg" />
+  <img src="assets/section-work.svg" width="100%" alt="03 Selected work" />
+</picture>
 
 <p align="center">
   <a href="https://liberty250.vercel.app"><img src="assets/cards/liberty250.svg" width="49%" alt="Liberty 250 — cinematic scrollytelling for America's 250th (live)" /></a>
@@ -62,36 +67,42 @@ I'm a **full-stack developer and creative technologist** who builds things peopl
 
 <div align="center">
 
-<img src="assets/chips/label-source.svg" height="30" alt="Source:" />
-<a href="https://github.com/M-Hasan-11/AuraLens"><img src="assets/chips/src-auralens.svg" height="30" alt="AuraLens source" /></a>
-<a href="https://github.com/M-Hasan-11/IELTS-App"><img src="assets/chips/src-ielts-app.svg" height="30" alt="IELTS App source" /></a>
-<a href="https://github.com/M-Hasan-11/StorySpark-AI"><img src="assets/chips/src-storyspark.svg" height="30" alt="StorySpark AI source" /></a>
-<a href="https://github.com/M-Hasan-11/GrowZone"><img src="assets/chips/src-growzone.svg" height="30" alt="GrowZone source" /></a>
-<a href="https://github.com/M-Hasan-11/OrnaIslam"><img src="assets/chips/src-ornaislam.svg" height="30" alt="OrnaIslam source" /></a>
+<img src="assets/chips/label-source.svg" height="26" alt="Source:" />
+<a href="https://github.com/M-Hasan-11/AuraLens"><img src="assets/chips/src-auralens.svg" height="26" alt="AuraLens source" /></a>
+<a href="https://github.com/M-Hasan-11/IELTS-App"><img src="assets/chips/src-ielts-app.svg" height="26" alt="IELTS App source" /></a>
+<a href="https://github.com/M-Hasan-11/StorySpark-AI"><img src="assets/chips/src-storyspark.svg" height="26" alt="StorySpark AI source" /></a>
+<a href="https://github.com/M-Hasan-11/GrowZone"><img src="assets/chips/src-growzone.svg" height="26" alt="GrowZone source" /></a>
+<a href="https://github.com/M-Hasan-11/OrnaIslam"><img src="assets/chips/src-ornaislam.svg" height="26" alt="OrnaIslam source" /></a>
 
-<img src="assets/chips/label-live.svg" height="30" alt="More live builds:" />
-<a href="https://zen-bonsai-umber.vercel.app"><img src="assets/chips/live-zen-bonsai.svg" height="30" alt="Zen Bonsai (live)" /></a>
-<a href="https://beehive-manager.vercel.app"><img src="assets/chips/live-beehive.svg" height="30" alt="Beehive Manager (live)" /></a>
-<a href="https://fleetpulse-bd.vercel.app"><img src="assets/chips/live-fleetpulse.svg" height="30" alt="FleetPulse BD (live)" /></a>
-<a href="https://rms-app-roan.vercel.app"><img src="assets/chips/live-rms.svg" height="30" alt="RMS (live)" /></a>
+<img src="assets/chips/label-live.svg" height="26" alt="More live builds:" />
+<a href="https://zen-bonsai-umber.vercel.app"><img src="assets/chips/live-zen-bonsai.svg" height="26" alt="Zen Bonsai (live)" /></a>
+<a href="https://beehive-manager.vercel.app"><img src="assets/chips/live-beehive.svg" height="26" alt="Beehive Manager (live)" /></a>
+<a href="https://fleetpulse-bd.vercel.app"><img src="assets/chips/live-fleetpulse.svg" height="26" alt="FleetPulse BD (live)" /></a>
+<a href="https://rms-app-roan.vercel.app"><img src="assets/chips/live-rms.svg" height="26" alt="RMS (live)" /></a>
 
 </div>
 
-<img src="assets/section-telemetry.svg" width="100%" alt="04 — Telemetry" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/section-telemetry-light.svg" />
+  <img src="assets/section-telemetry.svg" width="100%" alt="04 Activity" />
+</picture>
 
 <div align="center">
-  <img src="assets/telemetry.svg" width="100%" alt="GitHub telemetry: contributions, streaks, weekly activity and languages" />
+  <img src="assets/telemetry.svg" width="100%" alt="GitHub at a glance: commits, active days, streaks, weekly activity and languages" />
 </div>
 
 <div align="center">
-  <img src="assets/activity.svg" width="100%" alt="Activity grid: commits per day over the last 52 weeks" />
+  <img src="assets/activity.svg" width="100%" alt="Commit grid: activity per day over the last 52 weeks" />
 </div>
 
-<img src="assets/section-connect.svg" width="100%" alt="05 — Connect" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/section-connect-light.svg" />
+  <img src="assets/section-connect.svg" width="100%" alt="05 Let's talk" />
+</picture>
 
 <div align="center">
 
-Have a product, a game, or a wild 3D idea? **Open a channel.** I'd love to hear about it.
+Have a product, a game or an ambitious 3D idea? **I'd love to hear about it.**
 
 <a href="https://mahedi-hasan-p2.vercel.app"><img src="assets/btn-portfolio.svg" width="31%" alt="Portfolio" /></a>
 <a href="mailto:mehedimw007@gmail.com"><img src="assets/btn-email.svg" width="31%" alt="Email me" /></a>
@@ -99,4 +110,8 @@ Have a product, a game, or a wild 3D idea? **Open a channel.** I'd love to hear 
 
 </div>
 
-<img src="assets/footer.svg" width="100%" alt="End of transmission" />
+<img src="assets/footer.svg" width="100%" alt="Thanks for stopping by. M-11 the robot waves goodbye." />
+
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=M-Hasan-11&label=profile%20views&color=8B7CFF&style=flat-square" alt="Profile views" />
+</p>
