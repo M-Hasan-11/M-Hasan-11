@@ -105,7 +105,7 @@ const mahedi = {
 <img src="assets/section-telemetry.svg" width="100%" alt="04 — Telemetry" />
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/M-Hasan-11/M-Hasan-11/output/stats.svg" width="100%" alt="GitHub telemetry: contributions, streaks, weekly activity and languages" />
+  <img src="https://raw.githubusercontent.com/M-Hasan-11/M-Hasan-11/output/stats.svg?v=2" width="100%" alt="GitHub telemetry: contributions, streaks, weekly activity and languages" />
 </div>
 
 <div align="center">
