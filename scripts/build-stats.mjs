@@ -150,17 +150,16 @@ function renderGrid(s) {
   const level = (n) => (n === 0 ? 0 : Math.min(4, Math.ceil((n / max) * 4)));
   const x0 = PAD + (W - PAD * 2 - (52 * STEP - GAP)) / 2;
 
-  let months = "", lastMonth = -1, lastLabelCol = -9;
+  const months = [];
+  let lastMonth = -1;
   const cells = s.days.map(([date, n], i) => {
     const col = Math.floor(i / 7), row = i % 7;
     const x = x0 + col * STEP, y = GY + row * STEP;
     const m = +date.slice(5, 7) - 1;
     if (row === 0 && m !== lastMonth) {
-      // Skip a label that would collide with the previous one (e.g. a month's last few days in column 0).
-      if (col - lastLabelCol >= 3 && col < 50) {
-        months += `<text x="${x}" y="${GY - 12}" class="m" font-size="12" letter-spacing="1" fill="${C.dim}">${MONTHS[m]}</text>`;
-        lastLabelCol = col;
-      }
+      // A month that only shows a few columns (like the partial first one) gives way to the next.
+      if (months.length && col - months.at(-1).col < 3) months.pop();
+      if (col < 50) months.push({ col, text: `<text x="${x}" y="${GY - 12}" class="m" font-size="12" letter-spacing="1" fill="${C.dim}">${MONTHS[m]}</text>` });
       lastMonth = m;
     }
     const lv = level(n);
@@ -190,7 +189,7 @@ function renderGrid(s) {
 <path d="${panel}" fill="none" stroke="${C.line}"/>
 <text x="${PAD}" y="42" class="m" font-size="14" letter-spacing="3" fill="${C.dim}">// ${label} GRID, LAST 52 WEEKS</text>
 <text x="${W - PAD}" y="42" text-anchor="end" class="mb" font-size="14" letter-spacing="2" fill="${C.cyan}">${fmt(s.activeDays)} ACTIVE DAYS</text>
-${months}
+${months.map((m) => m.text).join("")}
 <rect class="scan" x="${x0 - 10}" y="${GY - 6}" width="60" height="${7 * STEP + 8}" fill="url(#scanG)"/>
 ${cells}
 <text x="${PAD}" y="${H - 24}" class="m" font-size="12" letter-spacing="2" fill="${C.faint}">TODAY PULSES  /  BRIGHTER = BUSIER</text>
