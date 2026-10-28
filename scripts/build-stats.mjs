@@ -186,8 +186,7 @@ function render(s) {
     return `<rect x="${x.toFixed(1)}" y="${(base - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${fill}"/>`;
   }).join("");
   const peakX = PAD + peakIdx * slot + slot / 2;
-  const peakLabel = `PEAK ${fmt(max)}`;
-  const peakAnchor = peakX > W - 120 ? "end" : peakX < 120 ? "start" : "middle";
+  const peakLabel = `PEAK ${fmt(max)} / WEEK`;
 
   let lx = PAD;
   const segs = s.languages.map((l) => {
@@ -223,7 +222,8 @@ ${tileSvg}
 <g filter="url(#g)">${bars}</g>
 <rect class="sweep" x="${PAD}" y="${CY0 - 4}" width="60" height="${CH + 4}" fill="url(#sweepG)"/>
 <line x1="${PAD}" y1="${base + 0.5}" x2="${W - PAD}" y2="${base + 0.5}" stroke="${C.faint}"/>
-<text x="${peakX.toFixed(1)}" y="${CY0 - 8}" text-anchor="${peakAnchor}" class="mb" font-size="11" letter-spacing="1" fill="${C.cyan}">${peakLabel}</text>
+<text x="${W - PAD}" y="184" text-anchor="end" class="mb" font-size="11" letter-spacing="1" fill="${C.cyan}">${peakLabel}</text>
+<path d="M${(peakX - 4).toFixed(1)} ${CY0 - 9}H${(peakX + 4).toFixed(1)}L${peakX.toFixed(1)} ${CY0 - 3}Z" fill="${C.cyan}"/>
 <text x="${PAD}" y="${base + 18}" class="m" font-size="10" letter-spacing="2" fill="${C.faint}">52 WEEKS AGO</text>
 <text x="${W - PAD}" y="${base + 18}" text-anchor="end" class="m" font-size="10" letter-spacing="2" fill="${C.faint}">THIS WEEK</text>
 
