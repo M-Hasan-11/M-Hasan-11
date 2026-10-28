@@ -63,3 +63,5 @@ jobs:
         run: node scripts/check-readme.mjs
         env:
           OUTPUT_DIR: dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RENDER_REF: ${{ github.event.pull_request.head.sha || github.sha }}

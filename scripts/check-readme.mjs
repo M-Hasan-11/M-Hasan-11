@@ -2,7 +2,9 @@
 // badge or dead demo link fails CI instead of silently breaking the profile.
 //
 // Images served from this repo's `output` branch are checked against
-// $OUTPUT_DIR (the freshly generated files) when it is set.
+// $OUTPUT_DIR (the freshly generated files) when it is set. With RENDER_REF
+// and GITHUB_TOKEN set, the README is also rendered by GitHub at that ref and
+// every image is fetched the way the profile page loads it.
 import { readFileSync, existsSync } from "node:fs";
 
 const README = "README.md";
@@ -57,10 +59,42 @@ async function checkLink(url) {
   return res.status < 400 ? "ok" : `HTTP ${res.status}`;
 }
 
+// Images exactly as GitHub serves them on the profile: external URLs go
+// through GitHub's camo proxy, which can reject files a direct fetch accepts.
+async function renderedImages(ref) {
+  const res = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/readme?ref=${ref}`, {
+    headers: {
+      Accept: "application/vnd.github.html",
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      "User-Agent": "profile-readme-check",
+    },
+  });
+  if (!res.ok) throw new Error(`rendering README failed: HTTP ${res.status}`);
+  const html = await res.text();
+  const urls = new Map();
+  for (const [tag] of html.matchAll(/<(?:img|source)\b[^>]*>/g)) {
+    const attr = (name) => tag.match(new RegExp(`\\s${name}="([^"]+)"`))?.[1]?.replaceAll("&amp;", "&");
+    const url = attr("src") ?? attr("srcset");
+    if (url) urls.set(new URL(url, "https://github.com/").href, attr("data-canonical-src"));
+  }
+  return [...urls].map(([url, canonical]) => (canonical ? `${url} <= ${canonical}` : url));
+}
+
+async function checkRendered(label) {
+  const res = await get(label.split(" <= ")[0]);
+  const type = res.headers.get("content-type") ?? "";
+  if (res.status !== 200) return `HTTP ${res.status}`;
+  if (!type.startsWith("image/")) return `not an image (${type})`;
+  return "ok";
+}
+
 const OK = new Set(["ok", "local", "generated", "skipped"]);
+const renderRef = process.env.RENDER_REF;
+const rendered = renderRef && process.env.GITHUB_TOKEN ? await renderedImages(renderRef) : [];
 const jobs = [
   ...[...images].map((u) => ["image", u, checkImage]),
   ...[...links].map((u) => ["link", u, checkLink]),
+  ...rendered.map((u) => ["served", u, checkRendered]),
 ];
 const results = await Promise.all(
   jobs.map(async ([kind, url, fn]) => {
