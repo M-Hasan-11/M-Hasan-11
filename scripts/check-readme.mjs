@@ -1,15 +1,11 @@
 // Verifies that every image and link in README.md resolves, so a broken
 // badge or dead demo link fails CI instead of silently breaking the profile.
 //
-// Images served from this repo's `output` branch are checked against
-// $OUTPUT_DIR (the freshly generated files) when it is set. With RENDER_REF
-// and GITHUB_TOKEN set, the README is also rendered by GitHub at that ref and
-// every image is fetched the way the profile page loads it.
+// With RENDER_REF and GITHUB_TOKEN set, the README is also rendered by GitHub
+// at that ref and every image is fetched the way the profile page loads it.
 import { readFileSync, existsSync } from "node:fs";
 
 const README = "README.md";
-const OUTPUT_PREFIX = "https://raw.githubusercontent.com/M-Hasan-11/M-Hasan-11/output/";
-const outputDir = process.env.OUTPUT_DIR;
 const md = readFileSync(README, "utf8").replace(/<!--[\s\S]*?-->/g, "");
 
 const images = new Set();
@@ -40,10 +36,6 @@ async function get(url) {
 }
 
 async function checkImage(url) {
-  if (url.startsWith(OUTPUT_PREFIX) && outputDir) {
-    const file = `${outputDir}/${url.slice(OUTPUT_PREFIX.length).split("?")[0]}`;
-    return existsSync(file) ? "generated" : `missing generated file ${file}`;
-  }
   if (!/^https?:/.test(url)) return existsSync(url) ? "local" : "missing local file";
   const res = await get(url);
   const type = res.headers.get("content-type") ?? "";
@@ -89,7 +81,7 @@ async function checkRendered(label) {
   return "ok";
 }
 
-const OK = new Set(["ok", "local", "generated", "skipped"]);
+const OK = new Set(["ok", "local", "skipped"]);
 const renderRef = process.env.RENDER_REF;
 const rendered = renderRef && process.env.GITHUB_TOKEN ? await renderedImages(renderRef) : [];
 const jobs = [

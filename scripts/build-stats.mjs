@@ -1,6 +1,7 @@
-// Builds the "telemetry" panel (stats.svg) from live GitHub data. The workflow
-// commits it to assets/telemetry.svg so the README serves it like every other
-// image (the GitHub mobile app would not load it from the output branch).
+// Builds the "telemetry" panel (stats.svg) and the activity grid (activity.svg)
+// from live GitHub data. The workflow commits them to assets/telemetry.svg and
+// assets/activity.svg so the README serves them like every other image (the
+// GitHub mobile app would not load them from another branch).
 // Runs in the profile workflow; replaces third-party stat cards. Uses GITHUB_TOKEN,
 // or a PROFILE_TOKEN secret (a personal token) to include private contributions.
 //
@@ -131,11 +132,73 @@ function summarize(user, commitDates, today) {
     publicRepos: user.repositories.totalCount,
     languageCount: bytes.size,
     weeks,
+    days: keys.map((date, i) => [date, counts[i]]),
     languages: top,
   };
 }
 
 const fmt = (n) => n.toLocaleString("en-US");
+
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+/** A 52 x 7 day grid of activity, oldest column first, with a scanning highlight. */
+function renderGrid(s) {
+  const W = 1000, PAD = 32, CELL = 14, GAP = 4, STEP = CELL + GAP, GY = 92;
+  const H = GY + 7 * STEP + 62;
+  const max = Math.max(1, ...s.days.map(([, n]) => n));
+  const shades = [C.line, "#3D2E8F", C.violet, "#2FB5FF", C.cyan];
+  const level = (n) => (n === 0 ? 0 : Math.min(4, Math.ceil((n / max) * 4)));
+  const x0 = PAD + (W - PAD * 2 - (52 * STEP - GAP)) / 2;
+
+  let months = "", lastMonth = -1, lastLabelCol = -9;
+  const cells = s.days.map(([date, n], i) => {
+    const col = Math.floor(i / 7), row = i % 7;
+    const x = x0 + col * STEP, y = GY + row * STEP;
+    const m = +date.slice(5, 7) - 1;
+    if (row === 0 && m !== lastMonth) {
+      // Skip a label that would collide with the previous one (e.g. a month's last few days in column 0).
+      if (col - lastLabelCol >= 3 && col < 50) {
+        months += `<text x="${x}" y="${GY - 12}" class="m" font-size="12" letter-spacing="1" fill="${C.dim}">${MONTHS[m]}</text>`;
+        lastLabelCol = col;
+      }
+      lastMonth = m;
+    }
+    const lv = level(n);
+    const glow = lv >= 3 ? ` filter="url(#g)"` : "";
+    const isToday = i === s.days.length - 1;
+    return `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="3" fill="${shades[lv]}"${glow}${isToday ? ` class="pulse"` : ""}/>`;
+  }).join("");
+
+  const legend = shades.map((c, i) => `<rect x="${W - PAD - 150 + i * 20}" y="${H - 36}" width="14" height="14" rx="3" fill="${c}"/>`).join("");
+  const css = fontCss({ display: false, monoBold: true }) + `
+.m{font-family:${MONO};font-weight:400}.mb{font-family:${MONO};font-weight:700}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes scan{from{transform:translateX(0)}to{transform:translateX(${52 * STEP - 40}px)}}
+.pulse{animation:pulse 1.6s ease-in-out infinite}
+.scan{transform-box:view-box;animation:scan 7s ease-in-out infinite alternate}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}`;
+  const defs = `
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.bg1}"/><stop offset="1" stop-color="${C.bg0}"/></linearGradient>
+<linearGradient id="scanG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${C.cyan}" stop-opacity="0"/><stop offset=".5" stop-color="${C.cyan}" stop-opacity=".22"/><stop offset="1" stop-color="${C.cyan}" stop-opacity="0"/></linearGradient>
+<pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="${C.cyan}" stroke-opacity=".05"/></pattern>
+<filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  const panel = chamferPath(0.5, 0.5, W - 1, H - 1, 24);
+  const label = s.source === "contributions" ? "CONTRIBUTION" : "COMMIT";
+  const body = `
+<path d="${panel}" fill="url(#bg)"/>
+<path d="${panel}" fill="url(#grid)"/>
+<path d="${panel}" fill="none" stroke="${C.line}"/>
+<text x="${PAD}" y="42" class="m" font-size="14" letter-spacing="3" fill="${C.dim}">// ${label} GRID, LAST 52 WEEKS</text>
+<text x="${W - PAD}" y="42" text-anchor="end" class="mb" font-size="14" letter-spacing="2" fill="${C.cyan}">${fmt(s.activeDays)} ACTIVE DAYS</text>
+${months}
+<rect class="scan" x="${x0 - 10}" y="${GY - 6}" width="60" height="${7 * STEP + 8}" fill="url(#scanG)"/>
+${cells}
+<text x="${PAD}" y="${H - 24}" class="m" font-size="12" letter-spacing="2" fill="${C.faint}">TODAY PULSES  /  BRIGHTER = BUSIER</text>
+<text x="${W - PAD - 160}" y="${H - 24}" text-anchor="end" class="m" font-size="12" letter-spacing="2" fill="${C.dim}">LESS</text>
+${legend}
+<text x="${W - PAD}" y="${H - 24}" text-anchor="end" class="m" font-size="12" letter-spacing="2" fill="${C.dim}">MORE</text>`;
+  return svgDoc({ w: W, h: H, css, defs, body, title: `${label.toLowerCase()} activity grid for ${s.login}: ${s.activeDays} active days in the last 52 weeks` });
+}
 
 function render(s) {
   const W = 1000, H = 440, PAD = 30;
@@ -248,5 +311,7 @@ const fixture = flag("--fixture");
 const stats = fixture ? JSON.parse(readFileSync(fixture, "utf8")) : await fetchData();
 const dump = flag("--dump");
 if (dump) write(dump, JSON.stringify(stats, null, 2));
-console.log(JSON.stringify({ ...stats, weeks: `[${stats.weeks.length} weeks]` }, null, 2));
+const activeDays = stats.days.filter(([, n]) => n > 0).map(([d, n]) => `${d}:${n}`).join(" ");
+console.log(JSON.stringify({ ...stats, weeks: `[${stats.weeks.length} weeks]`, days: activeDays }, null, 2));
 write(`${outDir}/stats.svg`, render(stats));
+write(`${outDir}/activity.svg`, renderGrid(stats));
