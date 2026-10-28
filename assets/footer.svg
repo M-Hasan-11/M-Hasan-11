@@ -85,10 +85,10 @@
   <path d="M-40 -88Q-20 -96 6 -92" fill="none" stroke="#FFFFFF" stroke-opacity=".25" stroke-width="4" stroke-linecap="round"/>
 </g>
 </g></g>
-<text x="210" y="70" class="d" font-size="15" letter-spacing="3" fill="#00F0FF">BYE!</text>
-<text x="210" y="92" class="m" font-size="12" letter-spacing="2" fill="#8A9BC4">// M-11 SIGNING OFF</text>
-<text x="620" y="72" text-anchor="middle" class="m" font-size="15" letter-spacing="6" fill="#E6F1FF">END OF TRANSMISSION</text>
-<rect x="766.5" y="58" width="10" height="18" fill="#00F0FF" class="blink"/>
-<rect x="430" y="92" width="380" height="2" fill="url(#ln)"/>
-<text x="620" y="118" text-anchor="middle" class="m" font-size="12" letter-spacing="3" fill="#8A9BC4">THANKS FOR VISITING  /  SEE YOU IN THE NEXT BUILD</text>
+<text x="210" y="70" class="d" font-size="18" letter-spacing="3" fill="#00F0FF">BYE!</text>
+<text x="210" y="94" class="m" font-size="13" letter-spacing="2" fill="#8A9BC4">// M-11 SIGNING OFF</text>
+<text x="630" y="72" text-anchor="middle" class="m" font-size="17" letter-spacing="5" fill="#E6F1FF">END OF TRANSMISSION</text>
+<rect x="778.4" y="58" width="10" height="18" fill="#00F0FF" class="blink"/>
+<rect x="440" y="92" width="380" height="2" fill="url(#ln)"/>
+<text x="630" y="120" text-anchor="middle" class="m" font-size="13.5" letter-spacing="2" fill="#8A9BC4">THANKS FOR VISITING  /  SEE YOU IN THE NEXT BUILD</text>
 </svg>

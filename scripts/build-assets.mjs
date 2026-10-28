@@ -18,52 +18,52 @@ const ACCENT = { web3d: C.cyan, ai: C.magenta, platform: C.violet, game: C.lime 
 const PROJECTS = [
   {
     slug: "liberty250", kind: "web3d", category: "3D & CINEMATIC WEB", title: "LIBERTY 250", status: "live",
-    desc: "Cinematic scrollytelling for America's 250th birthday: a photoreal globe, GSAP-driven scenes and realtime fireworks.",
+    desc: "Cinematic scrollytelling for America's 250th: a 3D globe and live fireworks.",
     tech: ["Next.js 16", "R3F", "GSAP", "Supabase"], host: "liberty250.vercel.app",
   },
   {
     slug: "vesta", kind: "web3d", category: "3D COMMERCE", title: "VESTA", status: "live",
-    desc: "A luxury lifestyle storefront with interactive 3D product previews and a test checkout flow.",
+    desc: "Luxury lifestyle storefront with interactive 3D product previews.",
     tech: ["TypeScript", "Three.js", "Vercel"], host: "wearvesta.vercel.app",
   },
   {
     slug: "car-plant", kind: "web3d", category: "3D SIMULATION", title: "CAR PLANT SIMULATION", status: "dev",
-    desc: "A near-photoreal browser simulation of an automated car assembly plant.",
+    desc: "Near-photoreal browser simulation of an automated car assembly plant.",
     tech: ["Vite", "TypeScript", "Three.js"], host: "work in progress",
   },
   {
     slug: "auralens", kind: "ai", category: "AI APP", title: "AURALENS", status: "live",
-    desc: "An AI aesthetic portrait studio for generating polished, stylized portraits.",
+    desc: "AI aesthetic portrait studio for polished, stylized portraits.",
     tech: ["Next.js", "TypeScript", "AI"], host: "aura-lens.vercel.app",
   },
   {
     slug: "rind-and-ember", kind: "platform", category: "FULL-STACK PLATFORM", title: "RIND & EMBER", status: "live",
-    desc: "Restaurant platform with online ordering, reservations, loyalty, live order tracking and operations tools.",
+    desc: "Restaurant ordering, reservations, loyalty and live order tracking.",
     tech: ["Next.js", "TypeScript", "Full-stack"], host: "cinder-citrus.vercel.app",
   },
   {
     slug: "ielts-app", kind: "ai", category: "AI EDTECH", title: "IELTS APP", status: "live",
-    desc: "An IELTS preparation platform with a built-in AI tutor.",
+    desc: "IELTS preparation platform with a built-in AI tutor.",
     tech: ["TypeScript", "AI Tutor"], host: "ielts-app-pi.vercel.app",
   },
   {
     slug: "ai-story-weaver", kind: "ai", category: "GENERATIVE AI", title: "AI STORY WEAVER", status: "source",
-    desc: "An AI-powered interactive story generator.",
+    desc: "AI-powered interactive story generator.",
     tech: ["TypeScript", "Generative AI"], host: "github.com/M-Hasan-11/AI-Story-Weaver",
   },
   {
     slug: "growzone", kind: "platform", category: "E-COMMERCE", title: "GROWZONE", status: "live",
-    desc: "A full-stack e-commerce platform.",
+    desc: "Full-stack e-commerce platform.",
     tech: ["TypeScript", "React"], host: "grow-zone.vercel.app",
   },
   {
     slug: "relic-arena", kind: "game", category: "UNITY GAME", title: "RELIC ARENA REALMS", status: "source",
-    desc: "A free Windows action arena game, shipped with its Unity source kit and a download website.",
+    desc: "Free Windows action arena, with its Unity source kit and download site.",
     tech: ["Unity", "C#"], host: "github.com/M-Hasan-11/relic-arena",
   },
   {
     slug: "astrobluster", kind: "game", category: "UNITY GAME", title: "ASTROBLUSTER", status: "source",
-    desc: "A 2D space shooting game built in Unity.",
+    desc: "2D space shooting game built in Unity.",
     tech: ["Unity", "C#"], host: "github.com/M-Hasan-11/AstroBluster",
   },
 ];
@@ -282,29 +282,30 @@ const STATUS = {
 };
 
 function card(p, index) {
-  const W = 600, H = 300, PAD = 30;
+  // Large type: on a phone each card renders roughly 200px wide.
+  const W = 600, H = 320, PAD = 32;
   const accent = ACCENT[p.kind];
   const st = STATUS[p.status];
   const num = String(index + 1).padStart(2, "0");
 
-  const DESC_SIZE = 16.5, DESC_LH = 25;
+  const DESC_SIZE = 22, DESC_LH = 32;
   const lines = wrap(p.desc, Math.floor((W - PAD * 2) / (DESC_SIZE * MONO_ADV)));
-  if (lines.length > 3) throw new Error(`description too long for card: ${p.title}`);
+  if (lines.length > 2) throw new Error(`description too long for card: ${p.title}`);
 
-  const pillText = st.label, PILL_SIZE = 12, PILL_SP = 2;
-  const pillW = 34 + monoWidth(pillText, PILL_SIZE, PILL_SP);
+  const pillText = st.label, PILL_SIZE = 14, PILL_SP = 2;
+  const pillW = 38 + monoWidth(pillText, PILL_SIZE, PILL_SP);
   const pillX = W - PAD - pillW;
 
   let cx = PAD;
-  const CHIP_SIZE = 12, CHIP_SP = 1;
+  const CHIP_SIZE = 15, CHIP_SP = 1;
   const chips = p.tech.map((t) => {
     const label = t.toUpperCase();
-    const w = monoWidth(label, CHIP_SIZE, CHIP_SP) + 20;
-    const s = `<g transform="translate(${cx} 216)"><rect width="${w}" height="26" rx="3" fill="${accent}" fill-opacity=".07" stroke="${accent}" stroke-opacity=".55"/><text x="10" y="17.5" class="m" font-size="${CHIP_SIZE}" letter-spacing="${CHIP_SP}" fill="${accent}">${esc(label)}</text></g>`;
-    cx += w + 8;
+    const w = monoWidth(label, CHIP_SIZE, CHIP_SP) + 22;
+    const s = `<g transform="translate(${cx} 233)"><rect width="${w}" height="32" rx="4" fill="${accent}" fill-opacity=".08" stroke="${accent}" stroke-opacity=".6"/><text x="11" y="21.5" class="m" font-size="${CHIP_SIZE}" letter-spacing="${CHIP_SP}" fill="${accent}">${esc(label)}</text></g>`;
+    cx += w + 10;
     return s;
   }).join("");
-  if (cx > W - PAD + 8) throw new Error(`tech chips overflow card: ${p.title}`);
+  if (cx > W - PAD + 10) throw new Error(`tech chips overflow card: ${p.title}`);
 
   const css = fontCss({ monoBold: true }) + baseCss + `
 @keyframes sweep{to{stroke-dashoffset:-1000}}
@@ -328,25 +329,25 @@ ${glowFilter("g", 4)}`;
 <path d="${shape}" fill="none" stroke="${C.line}" stroke-width="1.5"/>
 <path d="${shape}" fill="none" stroke="url(#sw)" stroke-width="2.2" pathLength="1000" stroke-dasharray="110 890" class="sweep" filter="url(#g)"/>
 
-<text x="${PAD}" y="47" class="d" font-size="15" fill="${accent}" letter-spacing="2">${num}</text>
-<text x="${PAD + 36}" y="46" class="m" font-size="13" fill="${C.dim}" letter-spacing="2">// ${esc(p.category)}</text>
+<text x="${PAD}" y="52" class="d" font-size="18" fill="${accent}" letter-spacing="2">${num}</text>
+<text x="${PAD + 42}" y="51" class="m" font-size="15" fill="${C.dim}" letter-spacing="2">// ${esc(p.category)}</text>
 
-<g transform="translate(${pillX} 26)">
-  <rect width="${pillW}" height="28" rx="14" fill="${st.color}" fill-opacity=".08" stroke="${st.color}" stroke-opacity=".7"/>
-  <circle cx="15" cy="14" r="4" fill="${st.color}" class="pulse"/>
-  <text x="26" y="18.5" class="mb" font-size="${PILL_SIZE}" letter-spacing="${PILL_SP}" fill="${st.color}">${pillText}</text>
+<g transform="translate(${pillX} 28)">
+  <rect width="${pillW}" height="32" rx="16" fill="${st.color}" fill-opacity=".08" stroke="${st.color}" stroke-opacity=".7"/>
+  <circle cx="17" cy="16" r="5" fill="${st.color}" class="pulse"/>
+  <text x="29" y="21" class="mb" font-size="${PILL_SIZE}" letter-spacing="${PILL_SP}" fill="${st.color}">${pillText}</text>
 </g>
 
-<text x="${PAD}" y="102" class="d" font-size="29" letter-spacing="1.5" fill="${C.text}">${esc(p.title)}</text>
-<rect x="${PAD}" y="116" width="46" height="3" fill="${accent}"/>
+<text x="${PAD}" y="114" class="d" font-size="33" letter-spacing="1.5" fill="${C.text}">${esc(p.title)}</text>
+<rect x="${PAD}" y="130" width="52" height="4" fill="${accent}"/>
 
-${lines.map((l, i) => `<text x="${PAD}" y="${148 + i * DESC_LH}" class="m" font-size="${DESC_SIZE}" fill="#AFC0E6">${esc(l)}</text>`).join("\n")}
+${lines.map((l, i) => `<text x="${PAD}" y="${174 + i * DESC_LH}" class="m" font-size="${DESC_SIZE}" fill="#BFCDEE">${esc(l)}</text>`).join("\n")}
 
 ${chips}
 
-<line x1="${PAD}" y1="258" x2="${W - PAD}" y2="258" stroke="${C.line}"/>
-<text x="${PAD}" y="282" class="m" font-size="13" letter-spacing="1" fill="${C.dim}">${esc(p.host)}</text>
-${arrowNE(W - PAD - 13, 270, 13, accent, 2)}`;
+<line x1="${PAD}" y1="278" x2="${W - PAD}" y2="278" stroke="${C.line}"/>
+<text x="${PAD}" y="304" class="m" font-size="15" letter-spacing="1" fill="${C.dim}">${esc(p.host)}</text>
+${arrowNE(W - PAD - 15, 290, 15, accent, 2.4)}`;
   return svgDoc({ w: W, h: H, title: `${p.title} — ${p.desc}`, css, defs, body });
 }
 
@@ -396,12 +397,12 @@ ${glowFilter("g", 2.5)}`;
   <path d="${chamferPath(0.5, 0.5, TILE - 1, TILE - 1, 12)}" fill="${C.bg0}" stroke="${color}" stroke-opacity=".45"/>
   <path d="${chamferPath(0.5, 0.5, TILE - 1, TILE - 1, 12)}" fill="${color}" fill-opacity=".06"/>
   <g transform="translate(${TILE / 2 - 15} ${TILE / 2 - 15}) scale(1.25)" filter="url(#g)">${glyph}</g>
-  <text x="${TILE / 2}" y="${TILE + 18}" text-anchor="middle" class="m" font-size="11" fill="${C.dim}">${esc(name)}</text>
+  <text x="${TILE / 2}" y="${TILE + 19}" text-anchor="middle" class="m" font-size="12.5" fill="${C.dim}">${esc(name)}</text>
   <rect x="${TILE - 9}" y="${TILE - 9}" width="4" height="4" fill="${color}" style="animation:pulse 2.4s ease-in-out ${delay}s infinite"/>
 </g></g>`;
     }).join("");
     return `<text x="34" y="${y + 30}" class="d" font-size="13" fill="${C.magenta}" letter-spacing="2">${String(r + 1).padStart(2, "0")}</text>
-<text x="34" y="${y + 50}" class="m" font-size="13" fill="${C.text}" letter-spacing="2">${esc(label)}</text>
+<text x="34" y="${y + 50}" class="m" font-size="14.5" fill="${C.text}" letter-spacing="2">${esc(label)}</text>
 <rect x="34" y="${y + 60}" width="28" height="2" fill="${C.cyan}"/>
 ${tiles}`;
   }).join("\n");
@@ -537,18 +538,18 @@ function footer() {
   const css = fontCss({ display: true }) + baseCss + robotCss;
   const defs = robotDefs + `<linearGradient id="ln" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${C.cyan}" stop-opacity="0"/><stop offset=".25" stop-color="${C.cyan}"/><stop offset=".75" stop-color="${C.magenta}"/><stop offset="1" stop-color="${C.magenta}" stop-opacity="0"/></linearGradient>`;
   const text = "END OF TRANSMISSION";
-  const tw = monoWidth(text, 15, 6);
-  const CX = 620;
+  const tw = monoWidth(text, 17, 5);
+  const CX = 630;
   const body = `
 <rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="${C.bg0}"/>
 <rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="14" fill="none" stroke="${C.line}"/>
 <g transform="translate(120 64) scale(.33)">${robot()}</g>
-<text x="210" y="70" class="d" font-size="15" letter-spacing="3" fill="${C.cyan}">BYE!</text>
-<text x="210" y="92" class="m" font-size="12" letter-spacing="2" fill="${C.dim}">// M-11 SIGNING OFF</text>
-<text x="${CX}" y="72" text-anchor="middle" class="m" font-size="15" letter-spacing="6" fill="${C.text}">${text}</text>
+<text x="210" y="70" class="d" font-size="18" letter-spacing="3" fill="${C.cyan}">BYE!</text>
+<text x="210" y="94" class="m" font-size="13" letter-spacing="2" fill="${C.dim}">// M-11 SIGNING OFF</text>
+<text x="${CX}" y="72" text-anchor="middle" class="m" font-size="17" letter-spacing="5" fill="${C.text}">${text}</text>
 <rect x="${CX + tw / 2 + 4}" y="58" width="10" height="18" fill="${C.cyan}" class="blink"/>
 <rect x="${CX - 190}" y="92" width="380" height="2" fill="url(#ln)"/>
-<text x="${CX}" y="118" text-anchor="middle" class="m" font-size="12" letter-spacing="3" fill="${C.dim}">THANKS FOR VISITING  /  SEE YOU IN THE NEXT BUILD</text>`;
+<text x="${CX}" y="120" text-anchor="middle" class="m" font-size="13.5" letter-spacing="2" fill="${C.dim}">THANKS FOR VISITING  /  SEE YOU IN THE NEXT BUILD</text>`;
   return svgDoc({ w: W, h: H, title: "End of transmission. M-11 the robot waves goodbye. Thanks for visiting.", css, defs, body });
 }
 
@@ -629,6 +630,45 @@ ${brackets(12, 12, W - 24, H - 24, 22, C.cyan, 2)}`;
   return svgDoc({ w: W, h: H, title, css, defs, body });
 }
 
+/* ─────────────────────────────── link chips ─────────────────────────────── */
+
+// Small clickable chips for the secondary project links under Featured Work.
+const LINK_CHIPS = [
+  { slug: "label-source", label: "SOURCE //", kind: "label" },
+  { slug: "src-auralens", label: "AuraLens", kind: "source" },
+  { slug: "src-ielts-app", label: "IELTS App", kind: "source" },
+  { slug: "src-storyspark", label: "StorySpark AI", kind: "source" },
+  { slug: "src-growzone", label: "GrowZone", kind: "source" },
+  { slug: "src-ornaislam", label: "OrnaIslam", kind: "source" },
+  { slug: "label-live", label: "MORE LIVE //", kind: "label" },
+  { slug: "live-zen-bonsai", label: "Zen Bonsai", kind: "live" },
+  { slug: "live-beehive", label: "Beehive Manager", kind: "live" },
+  { slug: "live-fleetpulse", label: "FleetPulse BD", kind: "live" },
+  { slug: "live-rms", label: "RMS", kind: "live" },
+];
+
+function linkChip({ label, kind }) {
+  const H = 44, SIZE = 17, SP = 1;
+  const color = kind === "live" ? C.lime : kind === "source" ? C.cyan : C.magenta;
+  const iconW = kind === "label" ? 0 : 30;
+  const W = Math.round(24 + iconW + monoWidth(label, SIZE, SP) + 22);
+  const icon = kind === "live"
+    ? `<path d="M20 15L32 22L20 29Z" fill="${color}" class="pulse"/>`
+    : kind === "source"
+      ? `<path d="M24 15L17 22L24 29M30 15L37 22L30 29" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`
+      : "";
+  const css = fontCss({ display: false, monoBold: kind === "label" }) + baseCss + `
+@keyframes sweep{to{stroke-dashoffset:-1000}}`;
+  const shape = chamferPath(1, 1, W - 2, H - 2, 10);
+  const defs = glowFilter("g", 2.5);
+  const body = `
+<path d="${shape}" fill="${kind === "label" ? "none" : C.bg0}" stroke="${color}" stroke-opacity="${kind === "label" ? 0 : 0.7}" stroke-width="1.5"/>
+${kind === "label" ? "" : `<path d="${shape}" fill="none" stroke="${color}" stroke-width="2" pathLength="1000" stroke-dasharray="60 940" filter="url(#g)" style="animation:sweep 5s linear infinite"/>`}
+${icon}
+<text x="${kind === "label" ? 12 : 24 + iconW}" y="28" class="${kind === "label" ? "mb" : "m"}" font-size="${SIZE}" letter-spacing="${SP}" fill="${kind === "label" ? color : C.text}">${esc(label)}</text>`;
+  return svgDoc({ w: W, h: H, title: label.replace(" //", ""), css, defs, body });
+}
+
 /* ─────────────────────────────── build ─────────────────────────────── */
 
 write(`${OUT}hero.svg`, hero());
@@ -639,3 +679,4 @@ for (const b of BUTTONS) write(`${OUT}btn-${b.slug}.svg`, button(b));
 write(`${OUT}footer.svg`, footer());
 write(`${OUT}robot.svg`, robotScene());
 write(`${OUT}identity.svg`, identity());
+for (const c of LINK_CHIPS) write(`${OUT}chips/${c.slug}.svg`, linkChip(c));
