@@ -1,5 +1,6 @@
 // Builds the "telemetry" panel (stats.svg) from live GitHub data.
-// Runs in the profile workflow with GITHUB_TOKEN; replaces third-party stat cards.
+// Runs in the profile workflow; replaces third-party stat cards. Uses GITHUB_TOKEN,
+// or a PROFILE_TOKEN secret (a personal token) to include private contributions.
 //
 //   node scripts/build-stats.mjs <outDir> [--fixture data.json] [--dump data.json]
 import { readFileSync } from "node:fs";
@@ -13,51 +14,95 @@ const LOGIN = process.env.PROFILE_LOGIN ?? "M-Hasan-11";
 // Unity projects carry large amounts of engine-generated shader/script code.
 const IGNORED_LANGUAGES = new Set(["ShaderLab", "HLSL", "TeX", "Batchfile", "PowerShell", "Makefile", "Dockerfile"]);
 
-const QUERY = `query($login: String!) {
+const REPO_HISTORY = `history(since: $since, first: 100, after: $after) {
+  totalCount pageInfo { hasNextPage endCursor } nodes { committedDate }
+}`;
+
+const QUERY = `query($login: String!, $since: GitTimestamp!, $after: String) {
   user(login: $login) {
     contributionsCollection {
-      totalCommitContributions
-      totalPullRequestContributions
       contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } }
     }
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC) {
       totalCount
-      nodes { languages(first: 10, orderBy: { field: SIZE, direction: DESC }) { edges { size node { name color } } } }
+      nodes {
+        name
+        languages(first: 10, orderBy: { field: SIZE, direction: DESC }) { edges { size node { name color } } }
+        defaultBranchRef { target { ... on Commit { ${REPO_HISTORY} } } }
+      }
     }
   }
 }`;
 
-async function fetchData() {
+const MORE_HISTORY = `query($login: String!, $name: String!, $since: GitTimestamp!, $after: String) {
+  repository(owner: $login, name: $name) { defaultBranchRef { target { ... on Commit { ${REPO_HISTORY} } } } }
+}`;
+
+async function gql(query, variables) {
   const token = process.env.GITHUB_TOKEN;
   if (!token) throw new Error("GITHUB_TOKEN is required (or pass --fixture)");
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: { Authorization: `bearer ${token}`, "Content-Type": "application/json", "User-Agent": "profile-telemetry" },
-    body: JSON.stringify({ query: QUERY, variables: { login: LOGIN } }),
+    body: JSON.stringify({ query, variables }),
   });
   const json = await res.json();
   if (!res.ok || json.errors) throw new Error(`GitHub GraphQL failed (${res.status}): ${JSON.stringify(json.errors ?? json)}`);
-  return summarize(json.data.user);
+  return json.data;
 }
 
-function summarize(user) {
-  const cc = user.contributionsCollection;
-  const days = cc.contributionCalendar.weeks.flatMap((w) => w.contributionDays);
+const DAY = 86_400_000;
+
+async function fetchData() {
+  const today = new Date(new Date().toISOString().slice(0, 10) + "T00:00:00Z");
+  const since = new Date(today - 364 * DAY).toISOString();
+  const { user } = await gql(QUERY, { login: LOGIN, since });
+
+  // Commit dates on the default branch of every public repo, paginated.
+  const commitDates = [];
+  for (const repo of user.repositories.nodes) {
+    let history = repo.defaultBranchRef?.target?.history;
+    for (let page = 0; history && page < 20; page++) {
+      commitDates.push(...history.nodes.map((c) => c.committedDate));
+      if (!history.pageInfo.hasNextPage) break;
+      const data = await gql(MORE_HISTORY, { login: LOGIN, name: repo.name, since, after: history.pageInfo.endCursor });
+      history = data.repository.defaultBranchRef?.target?.history;
+    }
+  }
+  return summarize(user, commitDates, today);
+}
+
+function summarize(user, commitDates, today) {
+  // One entry per UTC day for the last 52 weeks, oldest first.
+  const keys = Array.from({ length: 364 }, (_, i) => new Date(today - (363 - i) * DAY).toISOString().slice(0, 10));
+  const cal = user.contributionsCollection.contributionCalendar;
+
+  // Prefer the contribution calendar; when the profile hides it (or the token
+  // can't see it) fall back to commit activity across public repos.
+  let source, counts;
+  if (cal.totalContributions > 0) {
+    source = "contributions";
+    const byDay = new Map(cal.weeks.flatMap((w) => w.contributionDays).map((d) => [d.date, d.contributionCount]));
+    counts = keys.map((k) => byDay.get(k) ?? 0);
+  } else {
+    source = "commits";
+    const byDay = new Map();
+    for (const d of commitDates) byDay.set(d.slice(0, 10), (byDay.get(d.slice(0, 10)) ?? 0) + 1);
+    counts = keys.map((k) => byDay.get(k) ?? 0);
+  }
 
   let longest = 0, run = 0;
-  for (const d of days) {
-    run = d.contributionCount > 0 ? run + 1 : 0;
+  for (const n of counts) {
+    run = n > 0 ? run + 1 : 0;
     longest = Math.max(longest, run);
   }
-  // Today may simply not have contributions *yet*; don't let that break the streak.
-  let i = days.length - 1;
-  if (i >= 0 && days[i].contributionCount === 0) i--;
+  // Today may simply not have activity *yet*; don't let that break the streak.
+  let i = counts.length - 1;
+  if (i >= 0 && counts[i] === 0) i--;
   let current = 0;
-  for (; i >= 0 && days[i].contributionCount > 0; i--) current++;
+  for (; i >= 0 && counts[i] > 0; i--) current++;
 
-  const weeks = cc.contributionCalendar.weeks
-    .map((w) => w.contributionDays.reduce((n, d) => n + d.contributionCount, 0))
-    .slice(-52);
+  const weeks = Array.from({ length: 52 }, (_, w) => counts.slice(w * 7, w * 7 + 7).reduce((a, b) => a + b, 0));
 
   const bytes = new Map();
   for (const repo of user.repositories.nodes) {
@@ -76,12 +121,13 @@ function summarize(user) {
   return {
     login: LOGIN,
     generatedAt: new Date().toISOString(),
-    contributions: cc.contributionCalendar.totalContributions,
-    commits: cc.totalCommitContributions,
-    pullRequests: cc.totalPullRequestContributions,
+    source,
+    activity: counts.reduce((a, b) => a + b, 0),
+    activeDays: counts.filter((n) => n > 0).length,
     currentStreak: current,
     longestStreak: longest,
     publicRepos: user.repositories.totalCount,
+    languageCount: bytes.size,
     weeks,
     languages: top,
   };
@@ -108,12 +154,14 @@ function render(s) {
 <clipPath id="langClip"><rect x="${PAD}" y="364" width="${W - PAD * 2}" height="10" rx="5"/></clipPath>`;
 
   const tiles = [
-    ["CONTRIBUTIONS", "LAST 12 MONTHS", fmt(s.contributions), C.cyan],
-    ["COMMITS", "LAST 12 MONTHS", fmt(s.commits), C.violet],
-    ["PULL REQUESTS", "LAST 12 MONTHS", fmt(s.pullRequests), C.magenta],
+    s.source === "contributions"
+      ? ["CONTRIBUTIONS", "LAST 12 MONTHS", fmt(s.activity), C.cyan]
+      : ["PUBLIC COMMITS", "LAST 12 MONTHS", fmt(s.activity), C.cyan],
+    ["ACTIVE DAYS", "LAST 12 MONTHS", fmt(s.activeDays), C.violet],
     ["CURRENT STREAK", "DAYS", fmt(s.currentStreak), C.lime],
     ["LONGEST STREAK", "DAYS", fmt(s.longestStreak), C.amber],
-    ["PUBLIC REPOS", "OWNED", fmt(s.publicRepos), C.cyan],
+    ["PUBLIC REPOS", "OWNED", fmt(s.publicRepos), C.magenta],
+    ["LANGUAGES", "IN PUBLIC CODE", fmt(s.languageCount), C.cyan],
   ];
   const TG = 12, TW = (W - PAD * 2 - TG * (tiles.length - 1)) / tiles.length, TY = 64, TH = 92;
   const tileSvg = tiles.map(([label, sub, value, color], i) => {
@@ -168,7 +216,7 @@ function render(s) {
 
 ${tileSvg}
 
-<text x="${PAD}" y="184" class="m" font-size="12" letter-spacing="3" fill="${C.dim}">// 52-WEEK ACTIVITY SIGNAL</text>
+<text x="${PAD}" y="184" class="m" font-size="12" letter-spacing="3" fill="${C.dim}">// 52-WEEK ${s.source === "contributions" ? "CONTRIBUTION" : "COMMIT"} SIGNAL</text>
 <g stroke="${C.line}" stroke-dasharray="2 6">
   <line x1="${PAD}" y1="${CY0}" x2="${W - PAD}" y2="${CY0}"/><line x1="${PAD}" y1="${CY0 + CH / 2}" x2="${W - PAD}" y2="${CY0 + CH / 2}"/>
 </g>
@@ -187,7 +235,7 @@ ${legend}`;
   const langText = s.languages.map((l) => `${l.name} ${l.pct.toFixed(1)}%`).join(", ");
   return svgDoc({
     w: W, h: H, css, defs, body,
-    title: `GitHub telemetry for ${s.login}: ${s.contributions} contributions in the last year, current streak ${s.currentStreak} days, longest streak ${s.longestStreak} days, ${s.publicRepos} public repos. Languages: ${langText}`,
+    title: `GitHub telemetry for ${s.login}: ${s.activity} ${s.source} in the last year, ${s.activeDays} active days, current streak ${s.currentStreak} days, longest streak ${s.longestStreak} days, ${s.publicRepos} public repos. Languages: ${langText}`,
   });
 }
 

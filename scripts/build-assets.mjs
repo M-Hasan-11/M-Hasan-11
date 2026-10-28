@@ -46,9 +46,9 @@ const PROJECTS = [
     tech: ["TypeScript", "AI Tutor"], host: "ielts-app-pi.vercel.app",
   },
   {
-    slug: "ai-story-weaver", kind: "ai", category: "GENERATIVE AI", title: "AI STORY WEAVER", status: "live",
+    slug: "ai-story-weaver", kind: "ai", category: "GENERATIVE AI", title: "AI STORY WEAVER", status: "source",
     desc: "An AI-powered interactive story generator.",
-    tech: ["TypeScript", "Generative AI"], host: "ai-story-weaver-theta.vercel.app",
+    tech: ["TypeScript", "Generative AI"], host: "github.com/M-Hasan-11/AI-Story-Weaver",
   },
   {
     slug: "growzone", kind: "platform", category: "E-COMMERCE", title: "GROWZONE", status: "live",

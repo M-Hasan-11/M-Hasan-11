@@ -77,7 +77,7 @@ const mahedi = {
   <a href="https://ielts-app-pi.vercel.app"><img src="assets/cards/ielts-app.svg" width="49%" alt="IELTS App — IELTS preparation with an AI tutor (live)" /></a>
 </p>
 <p align="center">
-  <a href="https://ai-story-weaver-theta.vercel.app"><img src="assets/cards/ai-story-weaver.svg" width="49%" alt="AI Story Weaver — AI interactive story generator (live)" /></a>
+  <a href="https://github.com/M-Hasan-11/AI-Story-Weaver"><img src="assets/cards/ai-story-weaver.svg" width="49%" alt="AI Story Weaver — AI interactive story generator (source)" /></a>
   <a href="https://grow-zone.vercel.app"><img src="assets/cards/growzone.svg" width="49%" alt="GrowZone — full-stack e-commerce platform (live)" /></a>
 </p>
 <p align="center">
@@ -90,16 +90,15 @@ const mahedi = {
 **`SOURCE`** &nbsp;
 [AuraLens](https://github.com/M-Hasan-11/AuraLens) ·
 [IELTS App](https://github.com/M-Hasan-11/IELTS-App) ·
-[AI Story Weaver](https://github.com/M-Hasan-11/AI-Story-Weaver) ·
 [StorySpark AI](https://github.com/M-Hasan-11/StorySpark-AI) ·
-[GrowZone](https://github.com/M-Hasan-11/GrowZone)
+[GrowZone](https://github.com/M-Hasan-11/GrowZone) ·
+[OrnaIslam](https://github.com/M-Hasan-11/OrnaIslam)
 
 **`MORE LIVE BUILDS`** &nbsp;
 [Zen Bonsai](https://zen-bonsai-umber.vercel.app) ·
 [Beehive Manager](https://beehive-manager.vercel.app) ·
 [FleetPulse BD](https://fleetpulse-bd.vercel.app) ·
-[RMS](https://rms-app-roan.vercel.app) ·
-[OrnaIslam](https://orna-islam.vercel.app)
+[RMS](https://rms-app-roan.vercel.app)
 
 </div>
 

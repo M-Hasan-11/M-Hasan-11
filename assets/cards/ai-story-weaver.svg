@@ -28,10 +28,10 @@
 <text x="30" y="47" class="d" font-size="15" fill="#FF2BD6" letter-spacing="2">07</text>
 <text x="66" y="46" class="m" font-size="13" fill="#8A9BC4" letter-spacing="2">// GENERATIVE AI</text>
 
-<g transform="translate(499.2 26)">
-  <rect width="70.8" height="28" rx="14" fill="#39FF88" fill-opacity=".08" stroke="#39FF88" stroke-opacity=".7"/>
-  <circle cx="15" cy="14" r="4" fill="#39FF88" class="pulse"/>
-  <text x="26" y="18.5" class="mb" font-size="12" letter-spacing="2" fill="#39FF88">LIVE</text>
+<g transform="translate(480.8 26)">
+  <rect width="89.19999999999999" height="28" rx="14" fill="#00F0FF" fill-opacity=".08" stroke="#00F0FF" stroke-opacity=".7"/>
+  <circle cx="15" cy="14" r="4" fill="#00F0FF" class="pulse"/>
+  <text x="26" y="18.5" class="mb" font-size="12" letter-spacing="2" fill="#00F0FF">SOURCE</text>
 </g>
 
 <text x="30" y="102" class="d" font-size="29" letter-spacing="1.5" fill="#E6F1FF">AI STORY WEAVER</text>
@@ -42,6 +42,6 @@
 <g transform="translate(30 216)"><rect width="102" height="26" rx="3" fill="#FF2BD6" fill-opacity=".07" stroke="#FF2BD6" stroke-opacity=".55"/><text x="10" y="17.5" class="m" font-size="12" letter-spacing="1" fill="#FF2BD6">TYPESCRIPT</text></g><g transform="translate(140 216)"><rect width="126.6" height="26" rx="3" fill="#FF2BD6" fill-opacity=".07" stroke="#FF2BD6" stroke-opacity=".55"/><text x="10" y="17.5" class="m" font-size="12" letter-spacing="1" fill="#FF2BD6">GENERATIVE AI</text></g>
 
 <line x1="30" y1="258" x2="570" y2="258" stroke="#1C2550"/>
-<text x="30" y="282" class="m" font-size="13" letter-spacing="1" fill="#8A9BC4">ai-story-weaver-theta.vercel.app</text>
+<text x="30" y="282" class="m" font-size="13" letter-spacing="1" fill="#8A9BC4">github.com/M-Hasan-11/AI-Story-Weaver</text>
 <path d="M557 283L570 270M561.55 270H570V278.45" fill="none" stroke="#FF2BD6" stroke-width="2" stroke-linecap="square"/>
 </svg>
